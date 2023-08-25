@@ -1,0 +1,26 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: npm install deps
+      run: npm ci
+    - name: npm lint
+      run: npm run lint
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: install deps
+      run: npm ci
+    - name: integration test
+      run: npm run test
